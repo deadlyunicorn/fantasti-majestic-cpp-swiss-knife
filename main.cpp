@@ -1,11 +1,9 @@
-#ifndef A_H
-    #define A_H
-    #include <iostream>
-    #include <fstream>
-    #include <cstdio>
-    #include "lib/global_functions.h"
-    #include "lib/sql_queries.h"
-#endif // A_H
+
+#include <iostream>
+#include <fstream>
+#include <cstdio>
+#include "lib/global_functions.h"
+#include "lib/sql_queries.h"
 
 
 using namespace std;
