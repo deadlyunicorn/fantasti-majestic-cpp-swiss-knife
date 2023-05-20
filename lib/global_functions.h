@@ -2,6 +2,8 @@
     #define globals_h
 
     #include <iostream>
+    #include <fstream>
+    #include <vector>
 
     void bar(){
         std::cout << "=======================" << std::endl;
@@ -11,21 +13,73 @@
         std::cout << "-----------------------" << std::endl;
     };
 
-    void replaceChars(std::string& input,char charToReplace,char replaceWith){
+    void replaceChars(std::string& input,char charToReplace,char replaceWith);
 
-        for(int i=0;i<input.length();i++){
-        if(input[i]==charToReplace){
-                input[i]=replaceWith;
-        };
-        };
-    };
+    void getCommand(const char* userInput,char* command,char* argument);
 
-    void getCommand(char* ,char* ,char* );
+    void readFromFile(std::string& filename);
+
+    void readFromFile(std::string& filename){ //Filename or directory
+        
+        class tables{
+            public:
+                std::vector<std::string> name;
+                std::vector<std::string> datatype;
+        };
+        
+        std::ifstream currentFile(filename);
+        
+        std::string line;
+        bool foundTable=false;
+        int tableIndex=0;
+        while(getline(currentFile,line)){
+
+            tables currentTables;
+
+            
+            char tempName[100];
+            char tempType[100];
+
+            if(line.find("CREATE TABLE")!=std::string::npos){
+                foundTable=true;
+
+            }
+            else if(foundTable){
+
+                if(line.find(";")!=std::string::npos){
+                    foundTable=false;
+                    tableIndex++;
+                    continue;
+                }
+                const char* tempLine=line.c_str();
+                
+
+                std::cout << line << std::endl;
+                getCommand(tempLine,tempName,tempType);
+                // std::cout<< tableIndex << ":" <<line<<std::endl;
+                std::cout << "name: " << tempName << ", type: " << tempType << std::endl; 
+            }
+            
+        };
+
+        currentFile.close();
+        
+    } 
+
     ///Unfinished
 
 
     ///Functions that seperates user input to command and arguments
-    void getCommand(char* userInput,char* command,char* argument){
+    
+    void replaceChars(std::string& input,char charToReplace,char replaceWith){
+            for(int i=0;i<input.length();i++){
+                if(input[i]==charToReplace){
+                        input[i]=replaceWith;
+                };
+            };
+    }
+    
+    void getCommand(const char* userInput,char* command,char* argument){
         int i,j;
         
         //start iterating through the input's characters
