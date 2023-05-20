@@ -27,6 +27,7 @@
         
         class tables{
             public:
+                vector<int> tableNumber;
                 vector<string> name;
                 vector<string> datatype;
         };
@@ -39,13 +40,11 @@
 
         bool foundTable=false;
         int tableIndex=0;
-        string tempName;
-        string tempType;
+        tables currentTables;
 
 
         while(getline(currentFile,line)){
 
-            // tables currentTables;
 
             
           
@@ -53,6 +52,10 @@
             if(line.find("CREATE TABLE")!=string::npos){
 
                 foundTable=true;
+                currentTables.tableNumber.push_back(tableIndex);
+                currentTables.name.push_back("");
+                currentTables.datatype.push_back("");
+                
 
             }
 
@@ -72,13 +75,13 @@
 
 
 
-                getCommand(line,tempName,tempType);
+                getCommand(line,currentTables.name[tableIndex],currentTables.datatype[tableIndex]);
 
-                cout << "Name:" << tempName << "Type: " <<  tempType << endl;
+                cout << "Table number: "<< currentTables.tableNumber[tableIndex] <<"Name:" << currentTables.name[tableIndex] << "Type: " <<  currentTables.datatype[tableIndex] << endl;
 
 
                 // cout<< tableIndex << ":" <<line<<endl;
-                // cout << "name: " << tempName << ", type: " << tempType << endl; 
+                // cout << "name: " << currentTables.name << ", type: " << currentTables.datatype << endl; 
             }
             
         };
