@@ -16,6 +16,8 @@ int main(){
     //mainProcess();
 
     string filename="goodfilename";
+    
+
     readFromFile(filename);
     
     return 0;
