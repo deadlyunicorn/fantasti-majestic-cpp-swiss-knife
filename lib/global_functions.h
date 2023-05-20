@@ -77,7 +77,7 @@
 
                 getCommand(line,currentTables.name[tableIndex],currentTables.datatype[tableIndex]);
 
-                cout << "Table number: "<< currentTables.tableNumber[tableIndex] <<"Name:" << currentTables.name[tableIndex] << "Type: " <<  currentTables.datatype[tableIndex] << endl;
+                cout << "Table number: \n"<< currentTables.tableNumber[tableIndex] <<"Name:" << currentTables.name[tableIndex] << "Type: " <<  currentTables.datatype[tableIndex] << endl;
 
 
                 // cout<< tableIndex << ":" <<line<<endl;
