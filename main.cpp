@@ -5,14 +5,23 @@
 #include "lib/global_functions.h"
 #include "lib/sql_queries.h"
 
+void mainProcess();
+
 
 using namespace std;
 
-int main()
-{
+int main(){
     bar();
     cout << "---Type 'help' for help" <<endl;
+    //mainProcess();
 
+    string filename="goodfilename";
+    readFromFile(filename);
+    
+    return 0;
+}
+
+void mainProcess(){
     while (true){
         bar();
         cout << "What to do?" <<endl;
@@ -36,5 +45,4 @@ int main()
         }
 
     }
-    return 0;
 }
