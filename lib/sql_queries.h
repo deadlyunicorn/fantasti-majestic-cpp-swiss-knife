@@ -1,14 +1,11 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include "global_functions.h"
 
 using namespace std;
 
-//#including from "global_functions.h"
-void bar();
-void replaceChars(string&,char,char);
-void optionBar();
-//
+
 
 
 
@@ -48,8 +45,13 @@ class sqlTable{
         string getName(){
             return name;
         }
+        void generateFromFile(string);
 
 };
+
+void sqlTable::generateFromFile(string filename){
+    cout << "hello world" << endl;
+}
 
 void dataTypeDisp(){
         bar();
