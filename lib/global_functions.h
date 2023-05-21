@@ -27,8 +27,9 @@
         
         class tables{
             public:
+                vector<string> tableName;
                 vector<int> tableNumber;
-                vector<string> name;
+                vector<string> columnName;
                 vector<string> datatype;
         };
         
@@ -46,14 +47,27 @@
         while(getline(currentFile,line)){
 
 
-            
-          
 
-            if(line.find("CREATE TABLE")!=string::npos){
+            string phrase="CREATE TABLE";
+
+            int tableSearchIndex=line.find(phrase);
+
+            int tableSearchLength=phrase.length();
+
+
+            if(tableSearchIndex!=string::npos){
+
 
                 foundTable=true;
+
+                currentTables.tableName.push_back("");
+
+
+                for (int i=tableSearchIndex+tableSearchLength;line[i]!='('&&line[i]!='\0';i++){
+                    currentTables.tableName[tableIndex].push_back(line[i]);
+                }
                 currentTables.tableNumber.push_back(tableIndex);
-                currentTables.name.push_back("");
+                currentTables.columnName.push_back("");
                 currentTables.datatype.push_back("");
                 
 
@@ -75,13 +89,17 @@
 
 
 
-                getCommand(line,currentTables.name[tableIndex],currentTables.datatype[tableIndex]);
+                getCommand(line,currentTables.columnName[tableIndex],currentTables.datatype[tableIndex]);
+                replaceChars(currentTables.datatype[tableIndex],',','\0');
 
-                cout << "Table number: \n"<< currentTables.tableNumber[tableIndex] <<"Name:" << currentTables.name[tableIndex] << "Type: " <<  currentTables.datatype[tableIndex] << endl;
+                cout << "Table name: " << currentTables.tableName[tableIndex] <<
+                 endl << "Table number: "<< currentTables.tableNumber[tableIndex] << 
+                 endl <<"Name:" << currentTables.columnName[tableIndex] <<
+                  "\tType: " <<  currentTables.datatype[tableIndex] << endl;
 
 
                 // cout<< tableIndex << ":" <<line<<endl;
-                // cout << "name: " << currentTables.name << ", type: " << currentTables.datatype << endl; 
+                // cout << "name: " << currentTables.columnName << ", type: " << currentTables.datatype << endl; 
             }
             
         };
