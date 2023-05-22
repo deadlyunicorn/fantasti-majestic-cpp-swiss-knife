@@ -12,9 +12,11 @@ using namespace std;
 
 int main(){
 
+    bar();
     cout << "Made by deadlyunicorn"  <<endl;
     cout << "       05-2023       "  <<endl;
     bar(); //Aesthetic - cout of a line bar
+    
     cout << "---Type 'help' for help" <<endl;
     bar();
 
