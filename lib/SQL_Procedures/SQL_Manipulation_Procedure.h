@@ -1,5 +1,6 @@
 #include <iostream>
 #include "../global_Functions.h"
+#include "SQL_Objects.h"
 
 using namespace std;
 
@@ -22,6 +23,7 @@ void sqlDataManipulationProcedure(string& userInput,ofstream &file){
 
         cout << ": ";
         getline(cin,userInput);
+        cout << endl;
 
 
         if ( 
@@ -29,9 +31,35 @@ void sqlDataManipulationProcedure(string& userInput,ofstream &file){
             userInput=="3" || userInput=="4"  
         ){
             
-            if ( userSaidYesTo("Import and use table from file?") ){
+            if ( userSaidYesTo("Import and use table data from a file?") ){
+                cout << endl;
                 
-                cout << "Okay we will import  your file in about 5-7 working days, have a nice weekend." << endl;
+
+
+                string filename;
+                sqlTableList tempTableList;
+
+                cout << "Enter filename" << endl;
+                cout << ": ";
+                getline ( cin , filename );
+
+                tempTableList.generateFromFile(filename);
+
+                if ( tempTableList.getTableCount() > 0 ){
+                    
+                    cout << "Found tables!!" << endl;
+                    tempTableList.showTables();
+                    waitBeforeContinue();
+
+
+                }
+                else{
+                    cout << "No tables found." << endl;
+                    waitBeforeContinue();
+
+                }
+
+
 
             }
 
