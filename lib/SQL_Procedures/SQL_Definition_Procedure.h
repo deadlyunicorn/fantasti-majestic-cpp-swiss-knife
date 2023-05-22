@@ -25,6 +25,7 @@ void sqlDdProcedure(string& userInput,ofstream& file){
 
         cout << "1: Create and use a database" << endl;
         cout << "2: Create a table" << endl;
+        optionBar();
         cout << "exit: Go back" << endl;
         optionBar();
 
