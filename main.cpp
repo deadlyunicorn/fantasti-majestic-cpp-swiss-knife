@@ -18,7 +18,12 @@ int main(){
     string filename="goodfilename";
     
 
-    readFromFile(filename);
+    sqlTableList listA;
+    listA.generateFromFile(filename);
+
+    listA.showTables();
+
+    // readFromFile(filename);
     
     return 0;
 }

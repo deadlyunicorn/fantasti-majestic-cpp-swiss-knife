@@ -13,6 +13,8 @@ void sqlProcedure(string&);
 
 void sqlDdProcedure(string&,ofstream&);
 
+
+
 class sqlTable{
     private:
         string name;
@@ -20,6 +22,9 @@ class sqlTable{
         vector<string> dataTypes;
 
     public:
+        sqlTable(){};
+
+        
 
         void tableInsertCol(string columnName,string dataType){
             columnNames.push_back(columnName);
@@ -38,6 +43,15 @@ class sqlTable{
             return dataTypes[index];
         }
 
+        void displayColumns(){
+            for (int i=0; i < this->columnSize() ; i++){
+
+                cout << "Column Number: " << i << endl << 
+                "Column Name: " << this->columnNameAt(i) << endl <<
+                "Datatype: " << this->dataTypeAt(i) << endl;
+            }
+        }
+
         void setName(string name){
             this->name=name;
         }
@@ -45,12 +59,113 @@ class sqlTable{
         string getName(){
             return name;
         }
-        void generateFromFile(string);
+
+        void tableClean(){
+            name.clear();
+            columnNames.clear();
+            dataTypes.clear();
+        }
 
 };
 
-void sqlTable::generateFromFile(string filename){
-    cout << "hello world" << endl;
+class sqlTableList{
+    private:
+        vector<sqlTable> tables;
+    public:
+        void addTable(sqlTable table){
+            tables.push_back(table);
+        }
+        void generateFromFile(string& filename);
+
+        void showTables(){
+            for (int i=0;i<tables.size();i++){
+
+                cout << "Table Name: " << tables[i].getName() << endl ;
+                bar();
+                tables[i].displayColumns();
+                bar();
+            }
+        }
+};
+
+void sqlTableList::generateFromFile(string& filename){
+        
+        ifstream currentFile(filename);
+        string line; //line we are currently reading from file
+        
+        bool foundTable=false;
+
+        string phrase="CREATE TABLE";  //(#phrase)
+        
+        sqlTable currentTable;
+
+        while(getline(currentFile,line)){
+
+            int tableIndex=this->tables.size();
+            int tableSearchIndex=line.find(phrase);
+            int tableSearchLength=phrase.length(); //(#phrase)
+
+
+            
+            
+
+            if(tableSearchIndex!=string::npos){ //If our 'phrase' is found
+
+                foundTable=true;
+                currentTable.tableClean();
+
+
+                string tempName;
+
+                for (int i=tableSearchIndex+tableSearchLength;line[i]!='('&&line[i]!='\0';i++){
+                    tempName.push_back(line[i]);
+                }
+                currentTable.setName(tempName);
+
+                // currentTable.tableNumber.push_back(tableIndex);
+                // currentTable.columnName.push_back("");
+                // currentTable.datatype.push_back("");
+                
+
+            }
+
+            else if(foundTable){
+
+
+                if( line.find(";") != string::npos ){
+
+                    this->addTable(currentTable);
+                    // tableIndex++;
+
+                    foundTable=false;
+                    
+                    continue;
+                }
+                
+                string tempColName;
+                string tempDataType;
+                
+
+
+                getCommand(line,tempColName,tempDataType);
+                replaceChars(tempDataType,',','\0');
+
+                currentTable.tableInsertCol(tempColName,tempDataType);
+
+
+                // cout << "Table name: " << currentTable.getName() <<
+                //  endl << "Table number: "<< tableIndex << 
+                //  endl <<"Name:" << currentTable.columnNameAt(tableIndex) <<
+                //   "\tType: " <<  currentTable.dataTypeAt(tableIndex) << endl;
+
+
+                // cout<< tableIndex << ":" <<line<<endl;
+                // cout << "name: " << currentTable.columnName << ", type: " << currentTable.datatype << endl; 
+            }
+            
+        };
+
+        currentFile.close();
 }
 
 void dataTypeDisp(){
@@ -229,7 +344,7 @@ void sqlDdProcedure(string& userInput,ofstream& file){
                 getline(cin,userInput);
 
                 try{
-                    tempNum=stoi(userInput);
+                    tempNum=stoi(userInput); //String TO Integer ()
 
                     if((tempNum>=1)||(tempNum<=7)){
 
