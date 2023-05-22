@@ -15,74 +15,104 @@
         cout << "-----------------------" << endl;
     };
 
-    void replaceChars(string& input,char charToReplace,char replaceWith);
+    void waitBeforeContinue(){
+        string input;
+        cout << "Press Enter to continue..." << endl;
+        getline(cin,input);
+        cout << endl;
+    }
 
-    void getCommand(string& userInput,string& command,string& argument);
+    void replaceChars(string& input,char charToReplace,char replaceWith); // e.g. replaceChars(userInput,',',' ') will replace commas with spaces
+
+    void getCommand(string& userInput,string& command,string& argument); // command and argument variables must in the process that calls the getCommand() 
 
 
     
     void replaceChars(string& input,char charToReplace,char replaceWith){
-            for(int i=0;i<input.length();i++){
-                if(input[i]==charToReplace){
-                        input[i]=replaceWith;
+
+            for( int i=0 ;    i < input.length()    ; i++ ){ //O(N)
+
+                if(input[i]==charToReplace){ //very efficient /s
+
+                    input[i]=replaceWith;
+
                 };
             };
-    }
+
+    };
+
     
     void getCommand(string& userInput,string& command,string& argument){
 
-        command.clear();
-        argument.clear();
+        command.clear(); //We build the strings using .push_back()
+        argument.clear(); //We need to make sure we start with empty string.
 
-        int i,j;
+        int i;
+        
         
         //start iterating through the input's characters
-        for (i=0;userInput[i]!='\0';i++){ 
+        for ( i=0 ;    userInput[i]!='\0'   ; i++ ){ //stop if line ends 
 
             
-            if(userInput[i]!=' '){ //if we find a non blank space character
-                for(j=0;(userInput[i])!=' '&&(userInput[i])!='\0';i++,j++){ //until we find another non blank space character
+            if( userInput[i]!=' ' ){ //if we find a non blank space character - the beginning of an actual string
+            
+                for( true ;  ( userInput[i]  != ' ' ) && ( userInput[i] !='\0' ) ; i++ ){ //until we find the end of the string
                     
+                    command.push_back(userInput[i]);  //store the letters inside command //if we use [j] instead of pushBack it will create a string table..
 
-                    command.push_back(userInput[i]);  //store the letters inside command //if we use [j] instead of pushBack it will get weird
                 }
-                command.push_back('\0'); //mark end of word
+
+                command.push_back('\0'); //When done, mark it in the string
                 break; //exit the first loop when the command word is found
+            
             }
             
-        }
+        };
 
-
+//when using char* instead of string we can replace 'true' with 'int j=0' and for the above add i++,'j++' . 
         
-        for(j=0;(userInput[i]!='\0');i++){ //until we reach line end, continue iterating over the line
-
+        
+        for( bool firstArgumentFound = false ;  userInput[i] != '\0'  ; i++ ){ 
             
 
-            if(userInput[i]!=' '){ //If user input is not empty -- (find the beginning of the next word)
-                
-                if(j>0){
+            if( userInput[i] != ' ' ){   //
 
-                    argument.push_back(' ');   //leave spaces between arguments in case we have multiple arguments.
-                    j++;
+                
+                
+                if( firstArgumentFound ){
+
+                    argument.push_back(' ');   //separate arguments with spaces in case we have multiple arguments.
+
                 }
-                for (true;(userInput[i]!=' ')&&userInput[i]!='\0';j++,i++){ //until user reading is not blank space or end of line
+
+
+
+                firstArgumentFound = true ;
+
+                for( true ; ( userInput[i] != ' ' ) && ( userInput[i] != '\0' ) ; i++ ){ //Here we are building the individual arguments
                     
                     argument.push_back(userInput[i]);
 
                 }
-                if (userInput[i]=='\0'){
+
+                if (userInput[i]=='\0'){ //this looks like it is not needed however if we remove it we get a core dump when using the procedure inside sql table generator..
+                
                     break;
+                
                 }
+
+
+                
 
                 
             }
         }
 
-        argument.push_back('\0');//mark end of line
+        argument.push_back('\0');
 
     }
 
 
-#endif // A_H
+#endif 
 
 

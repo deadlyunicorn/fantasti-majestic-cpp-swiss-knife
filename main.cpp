@@ -4,6 +4,7 @@
 #include <cstdio>
 #include "lib/global_functions.h"
 #include "lib/sql_queries.h"
+#include "lib/mainProc.h"
 
 void mainProcess();
 
@@ -11,44 +12,57 @@ void mainProcess();
 using namespace std;
 
 int main(){
-    bar();
-    cout << "---Type 'help' for help" <<endl;
-    //mainProcess();
 
-    string filename="goodfilename";
+    bar(); //Aesthetic - cout of a line bar
+    cout << "---Type 'help' for help" <<endl;
+    bar();
+
+    // mainProcess();
     
 
+
+
+    string filename="goodfilename";
     sqlTableList listA;
     listA.generateFromFile(filename);
-
     listA.showTables();
 
-    // readFromFile(filename);
     
     return 0;
 }
 
 void mainProcess(){
     while (true){
-        bar();
-        cout << "What to do?" <<endl;
+
         string userInput;
-        cout << ":";
+
+        cout << "What to do?" << endl;
+        cout << ":"; 
         getline(cin,userInput);
 
+
         if(userInput=="exit"){
+
             break;
+
         }
+
         else if(userInput=="help"){
-            cout << "====== Help Menu ======" <<endl;
-            cout << "help-> show this menu" << endl;
-            cout << "sql-> sql query creator" << endl;
+        
+            displayHelpMenu();
+        
         }
+
         else if(userInput=="sql"){
-            sqlProcedure(userInput);
+        
+            sqlProcedure(userInput); // sqlProcedure(&string);
+        
         }
+
         else{
+
             cout << "Error: function not found" << endl;
+        
         }
 
     }
