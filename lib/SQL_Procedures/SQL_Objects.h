@@ -49,9 +49,11 @@ class sqlTable{
 
             for ( int i=0 ;    i < this->columnSize()   ; i++ ){
 
-                cout << "Column Number: "   << i                        << endl << 
+                cout << "Column Number: "   << i+1                      << endl << 
                         "Column Name: "     << this->columnNameAt(i)    << endl <<
                         "Datatype: "        << this->dataTypeAt(i)      << endl;
+
+                optionBar();
             
             }
         
@@ -99,13 +101,17 @@ class sqlTableList{
             
             for ( int i=0 ;    i < tableList.size()    ; i++ ){
 
-                cout << "Table Name: " << tableList[i].getName() << endl ;
-                
+
                 bar();
+                cout << "Table Name: " << tableList[i].getName() << endl ;
+                bar();
+                
+
+                cout << "   Column Data   " << endl;
+                optionBar();
                 
                 tableList[i].displayColumns();
                 
-                bar();
             }
         }
 
@@ -120,6 +126,12 @@ class sqlTableList{
 
         }
 
+        int getTableCount (){
+
+            return tableList.size();
+
+        }
+
         void generateFromFile( string& filename );
 
 };
@@ -130,6 +142,16 @@ void sqlTableList::generateFromFile(string& filename){
         sqlTable currentTable;
 
         ifstream currentFile(filename);
+        
+        if (!currentFile){
+
+            cout << "Error! File was not found." << endl;
+
+            return;
+        
+        }
+
+
         string line; //line we are currently reading from file
         bool foundTable=false;
         
