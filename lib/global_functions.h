@@ -22,6 +22,28 @@
         cout << endl;
     }
 
+    bool userSaidYesTo(string textToDisplay){
+        
+        string userInput="!!!";
+        do{
+            if ( userInput != "!!!" ){
+                cout << "Invalid input." << endl;
+                waitBeforeContinue();
+            }
+
+            cout << textToDisplay << "(y or n)."<< endl;
+            cout << ":";getline(cin,userInput);
+
+        }while( userInput != "y"   &&   userInput != "n" );
+
+        return ( userInput == "y" ); //;p
+
+    }
+
+
+
+
+
     void replaceChars(string& input,char charToReplace,char replaceWith); // e.g. replaceChars(userInput,',',' ') will replace commas with spaces
 
     void getCommand(string& userInput,string& command,string& argument); // command and argument variables must in the process that calls the getCommand() 
