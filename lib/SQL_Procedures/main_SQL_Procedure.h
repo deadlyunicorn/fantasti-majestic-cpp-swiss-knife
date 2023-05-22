@@ -20,7 +20,7 @@ void sqlProcedure( string& userInput ){
 
     do{
 
-        cout << "Do you want to store the queries in a file? (y or n)" << endl;
+        cout << "Do you want to store the queries in a file? (y or n)." << endl;
         cout << ":";getline(cin,userInput);
 
     }while( userInput != "y"   &&   userInput != "n" );
@@ -64,6 +64,7 @@ void sqlProcedure( string& userInput ){
 
         cout << "1: Data Definition   " << endl;
         cout << "2: Data Manipulation " << endl;
+        optionBar();
         cout << "exit: Go to home menu" << endl;
         optionBar();
 
