@@ -31,7 +31,7 @@
                 waitBeforeContinue();
             }
 
-            cout << textToDisplay << "(y or n)."<< endl;
+            cout << textToDisplay << " (y or n)."<< endl;
             cout << ":";getline(cin,userInput);
 
         }while( userInput != "y"   &&   userInput != "n" );
