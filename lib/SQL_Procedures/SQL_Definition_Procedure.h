@@ -15,148 +15,182 @@ string dataTypeQueryConstruct(string& userInput);
 
 
 void sqlDdProcedure(string& userInput,ofstream& file){
+    
 
-    bar();
-    cout << "Select one of the below?" << endl;
+    do{
 
-    optionBar();
-    cout << "1: Create and use a database" << endl;
-    cout << "2: Create a table" << endl;
-    optionBar();
-
-    cout << ":";
-    getline(cin,userInput);
-
-    if(userInput=="1"){
-
+        bar();
+        cout << "Select one of the below" << endl;
         optionBar();
-        cout << "Enter database name" << endl;
+
+        cout << "1: Create and use a database" << endl;
+        cout << "2: Create a table" << endl;
+        cout << "exit: Go back" << endl;
         optionBar();
+
 
         cout << ":";
         getline(cin,userInput);
 
-        cout << "-------- Success ------"<<endl;
-        cout << "Your results are below" <<endl;
-        replaceChars(userInput,' ','_');
 
-        //        _______________________________
-        bar();
-        cout << "CREATE DATABASE " << userInput <<";"<< endl;
-        cout << "USE " << userInput << ";" << endl;
-        bar();
+        if( userInput == "1" ){
 
-        waitBeforeContinue(); //Press enter to continue..
-        //
-        file << "CREATE DATABASE " << userInput <<";"<< endl;
-        file << "USE " << userInput << ";" << endl<<endl;
-    }
-
-    else if(userInput=="2"){
-
-        //Table Name
-        sqlTable tempTable;
-
-        optionBar();
-        cout << "Enter a table name" << endl;
-        optionBar();
-
-        cout << ":";
-        getline(cin,userInput);
-
-        replaceChars(userInput,' ','_');
-
-        tempTable.setName(userInput);
-
-        //Inserting Columns
-        do{
             optionBar();
-            cout << "Type '!!!' when you have finished." << endl;
+            cout << "Enter database name" << endl;
             optionBar();
-            cout << "New column insertion" << endl;
 
-
-            //New column name
-            string tempColName;
-
-            cout << "Enter a column name" << endl;
             cout << ":";
-
-            getline(cin,tempColName);
-
-            if(tempColName=="!!!"){break;}; //STOP new column insertion if the user types "!!!"
+            getline(cin,userInput);
 
 
-            replaceChars(tempColName,' ','_'); //No spaces allowed...
+            if ( userInput != " " && userInput != "\0" ){
+                cout << "-------- Success ------"<<endl;
+                cout << "Your results are below" <<endl;
+                replaceChars(userInput,' ','_');
 
-            cout << "Select a data type" << endl;
-            dataTypeDisp(); //List available datatypes to select
+                //        _______________________________
+                bar();
+                cout << "CREATE DATABASE " << userInput <<";"<< endl;
+                cout << "USE " << userInput << ";" << endl;
+                bar();
 
+                //
+                file << "CREATE DATABASE " << userInput <<";"<< endl;
+                file << "USE " << userInput << ";" << endl<<endl;
+            }
+            else{
+                cout << "Not a valid name" << endl;
+            }
+            waitBeforeContinue(); //Press enter to continue..
+
+            
+        }
+
+        else if( userInput == "2" ){
+
+            //Table Name
+            sqlTable tempTable;
+
+            optionBar();
+            cout << "Enter a table name" << endl;
+            optionBar();
+
+            cout << ":";
+            getline(cin,userInput);
+
+            replaceChars(userInput,' ','_');
+
+            tempTable.setName(userInput);
+
+            //Inserting Columns
             do{
+                optionBar();
+                cout << "Type '!!!' when you have finished." << endl;
+                optionBar();
+                cout << "New column insertion" << endl;
 
-                int tempNum;
 
+                //New column name
+                string tempColName;
+
+                cout << "Enter a column name" << endl;
                 cout << ":";
-                getline(cin,userInput);
 
-                try{
-                    tempNum=stoi(userInput); //String TO Integer ()
+                getline(cin,tempColName);
 
-                    if( tempNum>=1 || tempNum<=7 ){
+                if(tempColName=="!!!"){break;}; //STOP new column insertion if the user types "!!!"
 
-                        //getting inside a function in order to save our eyes...
-                        userInput=dataTypeQueryConstruct(userInput); //Cases of input
 
-                        if(userInput!="!!!"){
-                            ///Inserting new column only
-                            /// in the situation there is no "!!!" during all of
-                            /// the query creation stages
-                            tempTable.tableInsertCol(tempColName,userInput);
-                            /// that's why we do the insertion here.
+                replaceChars(tempColName,' ','_'); //No spaces allowed...
+
+                cout << "Select a data type" << endl;
+                dataTypeDisp(); //List available datatypes to select
+
+                do{
+
+                    int tempNum;
+
+                    cout << ":";
+                    getline(cin,userInput);
+
+                    try{
+                        tempNum=stoi(userInput); //String TO Integer ()
+
+                        if( tempNum>=1 || tempNum<=7 ){
+
+                            //getting inside a function in order to save our eyes...
+                            userInput=dataTypeQueryConstruct(userInput); //Cases of input
+
+                            if(userInput!="!!!"){
+                                ///Inserting new column only
+                                /// in the situation there is no "!!!" during all of
+                                /// the query creation stages
+                                tempTable.tableInsertCol(tempColName,userInput);
+                                /// that's why we do the insertion here.
+                            }
+                            break;
                         }
-                        break;
+
+                        else if(userInput=="!!!"){
+                            break;
+                        }
+                        else{
+                            cout << "Invalid input." <<endl ;
+                        }
+
+                    }
+                    catch(const std::invalid_argument& error){ //In case we don't input an integer --- get the corresponding ereror
+                        cout << "Invalid input." << endl;
                     }
 
-                    else if(userInput=="!!!"){
-                        break;
-                    }
-                    else{
-                        cout << "Invalid input." <<endl ;
-                    }
+                }while(true);
 
-                }
-                catch(const std::invalid_argument& error){ //In case we don't input an integer --- get the corresponding ereror
-                    cout << "Invalid input." << endl;
-                }
 
             }while(true);
 
 
-        }while(true);
+            
 
+            if( tempTable.columnSize() > 0 ){ //Show success menu only if there is something created.
 
-        cout << "-------- Success ------"<<endl;
-        cout << "Your results are below" <<endl;
-        //        _______________________________
-        bar();
+                cout << "-------- Success ------"<<endl;
+                cout << "Your results are below" <<endl;
+                bar();
+        
+                file << "CREATE TABLE " << tempTable.getName() << "(" << endl;
+                cout << "CREATE TABLE " << tempTable.getName() << "(" << endl;
 
-        file << "CREATE TABLE " << tempTable.getName() << "(" << endl;
-        cout << "CREATE TABLE " << tempTable.getName() << "(" << endl;
+                for( int i = 0 ;    i < tempTable.columnSize()  ; i++ ){
+                    file << tempTable.columnNameAt(i) << " " << tempTable.dataTypeAt(i) << ","<< endl;
+                    cout << tempTable.columnNameAt(i) << " " << tempTable.dataTypeAt(i) << ","<< endl;
+                }
 
-        for( int i = 0 ;    i < tempTable.columnSize()  ; i++ ){
-            file << tempTable.columnNameAt(i) << " " << tempTable.dataTypeAt(i) << ","<< endl;
-            cout << tempTable.columnNameAt(i) << " " << tempTable.dataTypeAt(i) << ","<< endl;
+                file << ");" <<endl<<endl;
+                cout << ");" <<endl;
+                bar();
+
+            }
+            else {
+                cout << "Table was left empty." << endl;
+            }
+        
+
+            waitBeforeContinue();
+
+            //
+        }
+        
+        else if ( userInput == "exit" ){
+            break;
+        }
+        else {
+
+            cout << "Invalid input." << endl;
+            waitBeforeContinue();
 
         }
+    }while( true );
 
-        file << ");" <<endl<<endl;
-        cout << ");" <<endl;
-        bar();
-
-        waitBeforeContinue();
-
-        //
-    }
 }
 
 

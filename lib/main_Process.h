@@ -5,12 +5,13 @@
 using namespace std;
 
 void displayHelpMenu(){
-    cout << "====== Help Menu ======"   <<  endl;
-    cout << "====== Commands  ======"   <<  endl;
-    cout << "help: show this menu"      <<  endl;
-    cout << "sql : sql query creator"   <<  endl;
-    cout << "man : command manual"      <<  endl<< 
-            "\t   e.g. 'man sql'"       <<  endl;
+    cout << "====== Help Menu ======"   <<  endl << endl;
+    cout << "====== Commands  ======"   <<  endl << endl;
+    cout << "help: Show this menu"      <<  endl;
+    cout << "sql : SQL Query Creator"   <<  endl;
+    cout << "man : Command Manual"      <<  endl<< 
+            "\te.g. 'man sql'"          <<  endl;
+    cout << endl;
 }
 
 void mainProcess(){
@@ -21,6 +22,7 @@ void mainProcess(){
         cout << "What to do?" << endl;
         cout << ":"; 
         getline(cin,userInput);
+        cout << endl;
 
 
         if(userInput=="exit"){
@@ -32,6 +34,8 @@ void mainProcess(){
         else if(userInput=="help"){
         
             displayHelpMenu();
+            waitBeforeContinue();
+            
         
         }
 
@@ -44,7 +48,7 @@ void mainProcess(){
         else{
 
             cout << "Error: function not found" << endl;
-        
+            waitBeforeContinue();
         }
 
     }

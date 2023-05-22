@@ -20,10 +20,11 @@ void sqlProcedure( string& userInput ){
 
     do{
 
-        cout << "Do you want store the queries in a file? (y or n)" << endl;
+        cout << "Do you want to store the queries in a file? (y or n)" << endl;
         cout << ":";getline(cin,userInput);
 
     }while( userInput != "y"   &&   userInput != "n" );
+
 
 
     if(userInput=="y"){
@@ -41,6 +42,8 @@ void sqlProcedure( string& userInput ){
         replaceChars(filename,' ','_');    //removing spaces from filename
 
     }
+    bar();
+
 
 
 // Opening a new file
@@ -49,22 +52,19 @@ void sqlProcedure( string& userInput ){
 // 
 
 
-    bar();
-    cout << "type 'exit' to go back" << endl;
-    bar();
+    cout << "Type 'exit' to go home" << endl;
+    optionBar();
 
 
 
     while (true){
 
-        cout << "What kind of query do you want to create?" << endl;
-
+        cout << "What kind of query to create" << endl;
         optionBar();
 
-        cout << "Exit: go to home menu" << endl;
         cout << "1: Data Definition   " << endl;
         cout << "2: Data Manipulation " << endl;
-        
+        cout << "exit: Go to home menu" << endl;
         optionBar();
 
 
@@ -77,14 +77,16 @@ void sqlProcedure( string& userInput ){
         else if (userInput=="1"){
 
             sqlDdProcedure(userInput,sqlFile);
+
         }
         else if(userInput=="2"){
 
-            sqlDataManipulationProcedure(userInput);
-            break;
+            sqlDataManipulationProcedure(userInput,sqlFile);
+
         }
         else{
             cout << "Make sure you select one of the available options.." << endl;
+            waitBeforeContinue();
         }
     }
 
@@ -98,6 +100,8 @@ void sqlProcedure( string& userInput ){
         }
 
     };
+
+    bar();
 }
 
 
