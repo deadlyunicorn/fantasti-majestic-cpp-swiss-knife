@@ -2,9 +2,8 @@
 #include <iostream>
 #include <fstream>
 #include <cstdio>
-#include "lib/global_functions.h"
-#include "lib/sql_queries.h"
-#include "lib/mainProc.h"
+#include "lib/global_Functions.h"
+#include "lib/main_Process.h"
 
 void mainProcess();
 
@@ -17,53 +16,15 @@ int main(){
     cout << "---Type 'help' for help" <<endl;
     bar();
 
-    // mainProcess();
-    
+    mainProcess();
 
-
-
-    string filename="goodfilename";
-    sqlTableList listA;
-    listA.generateFromFile(filename);
-    listA.showTables();
+    // string filename="goodfilename";
+    // sqlTableList listA;
+    // listA.generateFromFile(filename);
+    // listA.getTableNames();
+    // listA.showTables();
 
     
     return 0;
 }
 
-void mainProcess(){
-    while (true){
-
-        string userInput;
-
-        cout << "What to do?" << endl;
-        cout << ":"; 
-        getline(cin,userInput);
-
-
-        if(userInput=="exit"){
-
-            break;
-
-        }
-
-        else if(userInput=="help"){
-        
-            displayHelpMenu();
-        
-        }
-
-        else if(userInput=="sql"){
-        
-            sqlProcedure(userInput); // sqlProcedure(&string);
-        
-        }
-
-        else{
-
-            cout << "Error: function not found" << endl;
-        
-        }
-
-    }
-}
