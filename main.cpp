@@ -17,13 +17,6 @@ int main(){
     bar();
 
     mainProcess();
-
-    // string filename="goodfilename";
-    // sqlTableList listA;
-    // listA.generateFromFile(filename);
-    // listA.getTableNames();
-    // listA.showTables();
-
     
     return 0;
 }
