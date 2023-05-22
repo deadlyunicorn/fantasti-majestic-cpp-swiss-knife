@@ -10,6 +10,8 @@ void sqlProcedure(string&);
 
 void sqlDdProcedure(string&,ofstream&);
 
+void sqlDataManipulationProcedure(string& userInput);
+
 
 
 class sqlTable{
@@ -111,6 +113,17 @@ class sqlTableList{
             }
         }
 
+        void getTableNames(){
+            for ( int i=0 ;    i < tableList.size()    ; i++ ){
+
+                cout << i <<". Table: " << tableList[i].getName() << endl ;
+                
+            }
+
+            bar();
+
+        }
+
         void generateFromFile( string& filename );
 
 };
@@ -199,7 +212,8 @@ void sqlProcedure( string& userInput ){
             sqlDdProcedure(userInput,sqlFile);
         }
         else if(userInput=="2"){
-            cout << "DM then.." << endl;
+
+            sqlDataManipulationProcedure(userInput);
             break;
         }
         else{
@@ -362,6 +376,11 @@ void sqlDdProcedure(string& userInput,ofstream& file){
     }
 }
 
+
+void sqlDataManipulationProcedure(string& userInput){
+    cout << "Hello is this working??" << endl;
+
+}
 
 
 string dataTypeQueryConstruct(string& userInput){
