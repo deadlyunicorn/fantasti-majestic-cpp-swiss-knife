@@ -32,6 +32,16 @@ class insertQuery{
         void insertValue(string value){
             values.push_back(value);
         }
+        void showValues(){
+            cout << "INSERT INTO "<< tableToQuery << "VALUES(";
+            for (int i = 0 ; i < values.size() ; i ++){
+                cout << values[i];
+                if ( i != values.size()-1 ){
+                    cout << ",";
+                }
+            }
+            cout << ");" << endl;
+        }
 };
 
 
@@ -68,18 +78,18 @@ void sqlDataManipulationProcedure(string& userInput,ofstream &file){
                 cout << endl;
 
                 try{
-                    dataTable.setFromTable(getTableFromFile());
+                    dataTable.setFromTable( getTableFromFile() );
                 }
 
                 catch(int errorNumber){
                     if ( errorNumber == 101 ){
                         cout << "Could not generate table from file." << endl;
                     }
-                }
-            }
+                };
+            };
 
 
-        }
+        };
 
 
         if ( userInput == "1" ){ //Select
@@ -108,7 +118,9 @@ void sqlDataManipulationProcedure(string& userInput,ofstream &file){
             }
 
 
+            insertArguments->showValues();
             delete insertArguments;
+
             waitBeforeContinue();
         
         }
@@ -202,7 +214,7 @@ sqlTable getTableFromFile(){
     // listA.showTables();
 
 string verifyDatatype(string& userInput, string& datatype){
-     
+
      do{
         cout << ":";
         getline(std::cin,userInput);
