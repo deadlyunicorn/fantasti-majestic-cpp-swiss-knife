@@ -18,6 +18,11 @@ class sqlTable{
 
     public:
 
+        void setFromTable(const sqlTable& tableReference){
+            this->name=tableReference.name;
+            this->columnNames=tableReference.columnNames;
+            this->dataTypes=tableReference.dataTypes;
+        };
 
         void tableInsertCol( string columnName , string dataType ){
 
@@ -103,11 +108,12 @@ class sqlTableList{
 
 
                 bar();
-                cout << "Table Name: " << tableList[i].getName() << endl ;
+                cout << "Table Name: " << tableList[i].getName()    << endl
+                     << "Table Number: [" << i+1 << "]"             << endl;
                 bar();
                 
 
-                cout << "   Column Data   " << endl;
+                cout << "     Column Data   " << endl;
                 optionBar();
                 
                 tableList[i].displayColumns();
@@ -115,6 +121,10 @@ class sqlTableList{
             }
         }
 
+        sqlTable getTable(int i){
+            return this->tableList[i];
+        }
+        
         void getTableNames(){
             for ( int i=0 ;    i < tableList.size()    ; i++ ){
 
