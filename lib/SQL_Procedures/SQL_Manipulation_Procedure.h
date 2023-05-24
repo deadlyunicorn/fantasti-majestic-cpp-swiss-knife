@@ -16,9 +16,9 @@ class selectQuery{
         vector<string> tableToQuery; //could be "Tables to query"
         vector<string> selection;
         string whereCondition;
-        vector<string> groupBy;
+        string groupBy;
         string havingCondition;
-        vector<string> orderBy;
+        string orderBy;
     public:
         void addTableToQuery(string table){
             tableToQuery.push_back(table);
@@ -33,13 +33,13 @@ class selectQuery{
             whereCondition=where;
         };
         void setGroupBy(string column){
-            groupBy.push_back(column);
+            groupBy=column;
         };
         void setHaving(string having){
             havingCondition=having;
         }
         void setOrderBy(string column){
-            orderBy.push_back(column);
+            orderBy=column;
         }
         vector<string> getTableToQuery(){
             return tableToQuery;
@@ -50,13 +50,13 @@ class selectQuery{
         string getWhereCondition(){
             return whereCondition;
         };
-        vector<string> getGroupBy(){///comment
+        string getGroupBy(){///comment
             return groupBy;
         };
         string getHaving(){
             return havingCondition;
         }
-        vector<string> getOrderBy(){
+        string getOrderBy(){
             return orderBy;
         }
         void showSelection(){
@@ -65,6 +65,31 @@ class selectQuery{
             for (int i=0;i<selection.size();i++){
                 cout << i+1 << ". " << selection[i] << endl;
             }
+        }
+        string getQuery(){
+            string output;
+            output="SELECT "+selection[0];
+            for (int i=1; i < selection.size() ; i++ ){
+                output=output+", "+selection[i];
+            }
+            output=output+"\nFROM "+tableToQuery[0];
+            for (int i=1; i < tableToQuery.size() ; i++ ){
+                output=output+", "+tableToQuery[i];
+            }
+            if(whereCondition.size()>0){
+                output=output+"\nWHERE "+whereCondition;
+            }
+            if(groupBy.size()>0){
+                output=output+"\nGROUP BY "+groupBy;
+            }
+            if(havingCondition.size()>0){
+                output=output+"\nHAVING "+havingCondition;
+            }
+            if(orderBy.size()>0){
+                output=output+"\nORDER BY "+orderBy;
+            }
+            output=output+";\n";
+            return output;
         }
 
 };
@@ -164,10 +189,29 @@ void sqlDataManipulationProcedure(string& userInput,ofstream &file){
 
                 if( userInput == "!!!" ){
 
+                    if(selectArguments->getSelection().size() < 1 ){
+                        cout << "Cannot create query. " << endl;
+                        cout << "There were no columns selected." << endl;
+                        if(userSaidYesTo("Confirm exit?")){
+                            break;
+                        }
+                    }
+                    else if(selectArguments->getTableToQuery().size() < 1){
+                        cout << "Cannot create query. " << endl;
+                        cout << "There were no tables selected." << endl;
+                        if(userSaidYesTo("Confirm exit?")){
+                            break;
+                        }
+                    }
+                    else{
+                        
+                        cout << selectArguments->getQuery() << endl;
+                        file << selectArguments->getQuery() << endl << endl;
+                        break; 
+                        // return result here
+                    }
+                    
 
-
-                    delete selectArguments;
-                    break;
                 }
                 else{
                     try{
@@ -184,11 +228,14 @@ void sqlDataManipulationProcedure(string& userInput,ofstream &file){
                         
                         cout << "Input '!!!' when done." << endl;
 
-                        while( userInput!="!!!" && userInput!="*" ){
+                        while( userInput!="*" ){
 
                             cout << "Enter a column to select" << endl;
+                            optionBar();
 
                             userInput=getValidData();
+
+                            if(userInput=="!!!"){break;}
 
                             if(userInput=="*"){selectArguments->clearSelection();}
 
@@ -203,11 +250,17 @@ void sqlDataManipulationProcedure(string& userInput,ofstream &file){
                     else if(userInput=="2"){//Tables
 
                         cout << "Input '!!!' when done." << endl;
-                        while( userInput!="!!!" && userInput!="*" ){
+                        while( userInput!="*" ){
+
 
                             cout << "Enter a table to select" << endl;
+                            optionBar();
 
                             userInput=getValidData();
+
+                            if(userInput=="!!!"){break;}
+
+                            if(userInput=="*"){selectArguments->clearSelection();}
 
                             selectArguments->addTableToQuery(userInput);
                             
@@ -219,25 +272,57 @@ void sqlDataManipulationProcedure(string& userInput,ofstream &file){
                     }
                     else if(userInput=="3"){ //Where
 
-                        cout << "  Enter a WHERE condition  " << endl;
-                        cout << "including AND,OR statements" << endl;
+                        optionBar();
+                        cout << "      Enter a WHERE condition       " << endl;
+                        cout << "   including AND,OR statements      " << endl;
+                        optionBar();
+                        cout << "example:'age>18 AND registered=TRUE' " << endl;
 
-                            userInput=getValidData();
-                            selectArguments->setWhereCondition(userInput);
+                        userInput=getValidData();
+                        selectArguments->setWhereCondition(userInput);
 
                         cout << "Successfully set." << endl;
                         waitBeforeContinue();
                     }
                     else if(userInput=="4"){ //Group
 
+                        cout << "Enter a column name to GROUP BY" << endl;
+                        optionBar();
+
                         if(selectArguments->getSelection().size()>0){
 
                             if( selectArguments->getSelection()[0] != "*"){
+                                while(true){
+                                    userInput=getValidData();
+                                    if(userInput=="!!!"){break;}
 
+                                    bool columnExists=false;
+                                    for(int i=0;i<selectArguments->getSelection().size() ; i++ ){
+                                        if (selectArguments->getSelection()[i]==userInput){
+                                            columnExists=true;
+                                        }
+                                        
+                                    }
+                                    if (columnExists){
+                                        selectArguments->setGroupBy(userInput);
+                                        break;
+                                    }
+                                    else{
+                                            cout << "Be sure to select " << endl;
+                                            cout << "one of the columns,"<< endl;
+                                            cout << "already included"  << endl;
+                                            cout << "in your query. " << endl;
+                                            waitBeforeContinue();
+                                            selectArguments->showSelection();
+                                    }
+                                }
                             }
                             else{
-                                selectArguments->getSelection()
+                                userInput=getValidData();
+                                selectArguments->setGroupBy(userInput);
                             }
+                            cout << "Successfully set." << endl;
+                            waitBeforeContinue();
                             
                         }
                         else{
@@ -247,7 +332,10 @@ void sqlDataManipulationProcedure(string& userInput,ofstream &file){
 
                     }
                     else if(userInput=="5"){ //Having
-                        cout << "  Enter a HAVING condition  " << endl;
+                        optionBar();
+                        cout << "Enter a HAVING condition  " << endl;
+                        optionBar();
+                        cout << "example: 'last_name LIKE 'S%''" << endl;
 
                         userInput=getValidData();
                         selectArguments->setHaving(userInput);
@@ -258,6 +346,49 @@ void sqlDataManipulationProcedure(string& userInput,ofstream &file){
                     }
                     else if(userInput=="6"){ //Order
 
+                        cout << "Enter a column name to ORDER BY" << endl;
+                        optionBar();
+
+                        if(selectArguments->getSelection().size()>0){
+
+                            if( selectArguments->getSelection()[0] != "*"){
+                                while(true){
+                                    userInput=getValidData();
+                                    if(userInput=="!!!"){break;}
+
+
+                                    bool columnExists=false;
+                                    for(int i=0;i<selectArguments->getSelection().size() ; i++ ){
+                                        if (selectArguments->getSelection()[i]==userInput){
+                                            columnExists=true;
+                                        }
+                                    }
+                                    if (columnExists){
+                                        selectArguments->setOrderBy(userInput);
+                                        break;
+                                    }
+                                    else{
+                                            cout << "Be sure to select " << endl;
+                                            cout << "one of the columns,"<< endl;
+                                            cout << "already included"  << endl;
+                                            cout << "in your query. " << endl;
+                                            waitBeforeContinue();
+                                            selectArguments->showSelection();
+                                    }
+                                }
+                            }
+                            else{
+                                userInput=getValidData();
+                                selectArguments->setOrderBy(userInput);
+                            }
+                            cout << "Successfully set." << endl;
+                            waitBeforeContinue();
+                            
+                        }
+                        else{
+                            cout << "Be sure to add columns" << endl;
+                            cout << " to select from first " << endl;
+                        }
                     }
                 }
             
@@ -265,6 +396,7 @@ void sqlDataManipulationProcedure(string& userInput,ofstream &file){
 
 
             
+            delete selectArguments;
             waitBeforeContinue();
         }
         else if ( userInput == "2" ){ //Insert
