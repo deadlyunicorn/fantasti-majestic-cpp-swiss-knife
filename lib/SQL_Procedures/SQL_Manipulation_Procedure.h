@@ -50,7 +50,7 @@ class selectQuery{
         string getWhereCondition(){
             return whereCondition;
         };
-        vector<string> getGroupBy(){
+        vector<string> getGroupBy(){///comment
             return groupBy;
         };
         string getHaving(){
