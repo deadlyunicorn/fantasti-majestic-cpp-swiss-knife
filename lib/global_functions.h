@@ -88,7 +88,33 @@
 
     };
 
-    
+    string removeSpaces(const string& initialString){ //Doesn't affect initial string, unlike replaceChars().
+        string tempString;
+        for (int i=0;i<initialString.size();i++){
+            if (initialString[i] != ' '){
+                tempString.push_back(initialString[i]);
+            }
+        }
+        return tempString;
+    }
+
+    string getValidInput(string prompt){
+        while (true){
+                string userInput;
+                cout << prompt << endl;
+                cout << ": ";
+                getline(cin,userInput);
+
+                if(removeSpaces(userInput).size()>0){
+
+                    return userInput;
+                }
+                else{
+                    cout << "Invalid Input. Try again." << endl;
+                }
+            }
+    }
+
     void getCommand(string& userInput,string& command,string& argument){
 
         command.clear(); //We build the strings using .push_back()
