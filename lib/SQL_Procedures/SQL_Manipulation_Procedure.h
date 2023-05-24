@@ -11,13 +11,61 @@ sqlTable getTableFromFile();
 
 string verifyDatatype(string&,string&);
 
-class tableSelectArguments{
+class selectQuery{
     private:
-        string tableToQuery; //could be "Tables to query"
+        vector<string> tableToQuery; //could be "Tables to query"
         vector<string> selection;
         string whereCondition;
-        string groupBy;
-        string orderBy;
+        vector<string> groupBy;
+        string havingCondition;
+        vector<string> orderBy;
+    public:
+        void addTableToQuery(string table){
+            tableToQuery.push_back(table);
+        };
+        void clearSelection(){
+            this->selection.clear();
+        }
+        void addSelection(string table){
+            selection.push_back(table);
+        };
+        void setWhereCondition(string where){
+            whereCondition=where;
+        };
+        void setGroupBy(string column){
+            groupBy.push_back(column);
+        };
+        void setHaving(string having){
+            havingCondition=having;
+        }
+        void setOrderBy(string column){
+            orderBy.push_back(column);
+        }
+        vector<string> getTableToQuery(){
+            return tableToQuery;
+        }
+        vector<string> getSelection(){
+            return selection;
+        };
+        string getWhereCondition(){
+            return whereCondition;
+        };
+        vector<string> getGroupBy(){
+            return groupBy;
+        };
+        string getHaving(){
+            return havingCondition;
+        }
+        vector<string> getOrderBy(){
+            return orderBy;
+        }
+        void showSelection(){
+            cout << "Submitted columns" << endl;
+            optionBar();
+            for (int i=0;i<selection.size();i++){
+                cout << i+1 << ". " << selection[i] << endl;
+            }
+        }
 
 };
 
@@ -32,15 +80,17 @@ class insertQuery{
         void insertValue(string value){
             values.push_back(value);
         }
-        void showValues(){
-            cout << "INSERT INTO "<< tableToQuery << "VALUES(";
+        string getQuery(){
+            string output;
+            output="INSERT INTO " + tableToQuery + " VALUES(";
             for (int i = 0 ; i < values.size() ; i ++){
-                cout << values[i];
+                output = output + values[i];
                 if ( i != values.size()-1 ){
-                    cout << ",";
+                    output = output + ", ";
                 }
             }
-            cout << ");" << endl;
+            output =  output + ");" ;
+            return output;
         }
 };
 
@@ -74,7 +124,7 @@ void sqlDataManipulationProcedure(string& userInput,ofstream &file){
             userInput=="3" || userInput=="4"  
         ){
             
-            if ( userSaidYesTo("Import and use table data from a file?") ){
+            if ( userSaidYesTo("Import and show/use table data from a file?") ){
                 cout << endl;
 
                 try{
@@ -93,14 +143,136 @@ void sqlDataManipulationProcedure(string& userInput,ofstream &file){
 
 
         if ( userInput == "1" ){ //Select
-            cout << "User wants to select.. " << endl;
+
+            selectQuery* selectArguments = new selectQuery;
+
+            do{
+
+            cout << "Select one of the below"<<endl;
+            optionBar();
+            cout << "1: Set COLUMNS to SELECT "     << endl;
+            cout << "2: Set TABLES to SELECT from"  << endl;
+            cout << "3: Set WHERE condition "       << endl;
+            cout << "4: Set GROUP BY "              << endl;
+            cout << "5: Set HAVING "                << endl;
+            cout << "6: Set ORDER BY "              << endl;
+            cout << "!!!: Exit or Finish Query"     << endl;
+            optionBar();
+
+                cout << ": ";
+                getline( cin,userInput);
+
+                if( userInput == "!!!" ){
+
+
+
+                    delete selectArguments;
+                    break;
+                }
+                else{
+                    try{
+                        int i=stoi(userInput);
+                        if ( i<1 || i>6){
+                            throw 404;
+                        }
+                    }
+                    catch(...){
+                        cout << "Invalid Input." << endl;
+                        continue;
+                    }
+                    if (userInput=="1"){ //Columns
+                        
+                        cout << "Input '!!!' when done." << endl;
+
+                        while( userInput!="!!!" && userInput!="*" ){
+
+                            cout << "Enter a column to select" << endl;
+
+                            userInput=getValidData();
+
+                            if(userInput=="*"){selectArguments->clearSelection();}
+
+                            selectArguments->addSelection(userInput);
+
+                            
+                        }
+
+                        cout << "Successfully set." << endl;
+                        waitBeforeContinue();
+                    }
+                    else if(userInput=="2"){//Tables
+
+                        cout << "Input '!!!' when done." << endl;
+                        while( userInput!="!!!" && userInput!="*" ){
+
+                            cout << "Enter a table to select" << endl;
+
+                            userInput=getValidData();
+
+                            selectArguments->addTableToQuery(userInput);
+                            
+                        }
+
+                        cout << "Successfully set." << endl;
+                        waitBeforeContinue();
+
+                    }
+                    else if(userInput=="3"){ //Where
+
+                        cout << "  Enter a WHERE condition  " << endl;
+                        cout << "including AND,OR statements" << endl;
+
+                            userInput=getValidData();
+                            selectArguments->setWhereCondition(userInput);
+
+                        cout << "Successfully set." << endl;
+                        waitBeforeContinue();
+                    }
+                    else if(userInput=="4"){ //Group
+
+                        if(selectArguments->getSelection().size()>0){
+
+                            if( selectArguments->getSelection()[0] != "*"){
+
+                            }
+                            else{
+                                selectArguments->getSelection()
+                            }
+                            
+                        }
+                        else{
+                            cout << "Be sure to add columns" << endl;
+                            cout << " to select from first " << endl;
+                        }
+
+                    }
+                    else if(userInput=="5"){ //Having
+                        cout << "  Enter a HAVING condition  " << endl;
+
+                        userInput=getValidData();
+                        selectArguments->setHaving(userInput);
+
+                        cout << "Successfully set." << endl;
+                        waitBeforeContinue();
+
+                    }
+                    else if(userInput=="6"){ //Order
+
+                    }
+                }
+            
+            }while(true);
+
+
+            
+            waitBeforeContinue();
         }
         else if ( userInput == "2" ){ //Insert
             
-            insertQuery* insertArguments=new insertQuery;
 
 
             if ( dataTable.columnSize() > 0 ){
+                insertQuery* insertArguments=new insertQuery;
 
                 insertArguments->setTableToQuery( dataTable.getName() );
                 
@@ -115,20 +287,105 @@ void sqlDataManipulationProcedure(string& userInput,ofstream &file){
 
                     
                 };
+
+                successBar();
+                cout << insertArguments->getQuery() << endl;
+                file << insertArguments->getQuery() << endl << endl;
+
+                delete insertArguments;
             }
+            else{
+                string tempTable;
+                vector<string> data;
+
+                optionBar();
+                cout << "It seems you are not using a table template." << endl << endl;
+                cout << "Note that the results you get will need" << endl;
+                cout << "to have manually added quotes." << endl;
+                bar();
+                while(true){
+                    cout << "Enter your table name" << endl;
+                    cout << ":";
+                    getline(cin,tempTable);
+
+                    replaceChars(tempTable,' ','\0'); //basically this could have been approached differently.
+                    if( tempTable[0] == '\0' ){
+                        cout << "Invalid Input." << endl;
+                    }
+                    else{
+                        break;                        
+                    }
+                }
+
+                if(tempTable!="!!!"){
 
 
-            insertArguments->showValues();
-            delete insertArguments;
+                    cout << "Now inserting data" << endl;
+                    cout << "Type '!!!' when finished." << endl;
+                    
+                    int i=0;
+                    while(true){
+                        string tempString;
+                        // string unfilteredString;
+
+                        cout << "Enter data for the column No." << i+1 << endl;
+                        cout << ": ";
+                        getline(cin,tempString);
+                        // unfilteredString=tempString;
+
+                        replaceChars(tempString,' ','\0');
+
+
+                        if ( tempString != "!!!" && tempString[0] != '\0' ){ //I have had errors with the \0 here.
+                            data.push_back(tempString);
+                            i++;
+                        }
+                        else if( tempString == "!!!"){
+                            break;
+                        }
+                        else {
+                            cout << "Invalid Input." << endl;
+                        }
+                    }
+                }
+
+                if( data.size() > 0 ){
+
+                    string output;
+                    output="INSERT INTO " + tempTable + " VALUES(";
+                    
+                    for (int i = 0 ; i < data.size() ; i ++){
+                        output = output + data[i];
+                        if ( i != data.size()-1 ){
+                            output = output + ", ";
+                        }
+                    };
+                    
+                    output =  output + ");" ;
+
+                    successBar();
+                    cout << output << endl;
+                    file << output << endl << endl;
+                }
+                
+                else{
+                    cout << "No data inserted." << endl;
+                }
+
+            }
 
             waitBeforeContinue();
         
         }
         else if ( userInput == "3" ){ //Update
-            
+            cout << "User wants to update.. " << endl;
+
+            waitBeforeContinue();
         }
         else if ( userInput == "4" ){ //Delete
-            
+            cout << "User wants to delete.. " << endl;
+
+            waitBeforeContinue();
         }
         else if ( userInput == "exit" ){
             break;
@@ -244,6 +501,9 @@ string verifyDatatype(string& userInput, string& datatype){
                     inputLength=250;
                 }
                 if (userInput.length() <= inputLength){
+                    
+                    userInput.insert(userInput.begin(), '\'');
+                    userInput.push_back('\'');
                     return userInput;
                 }
                 else{
@@ -351,12 +611,14 @@ string verifyDatatype(string& userInput, string& datatype){
                         }
                         else {i=9;}
                     }
-                    // continue; Don't remember why I put this here..
+                    // continue; Don't remember why I put this here.. However I am too afraid to completely remove.
                 }
                 else { break;}
             };
 
             if(i==10){
+                userInput.insert(userInput.begin(), '\'');
+                userInput.push_back('\'');
                 return userInput;
             }
             else{
