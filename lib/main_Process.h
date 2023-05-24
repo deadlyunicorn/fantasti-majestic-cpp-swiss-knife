@@ -19,7 +19,7 @@ void mainProcess(){
 
         string userInput;
 
-        cout << "What to do?" << endl;
+        cout << "What to do? -- use 'help'" << endl;
         cout << ":"; 
         getline(cin,userInput);
         cout << endl;
