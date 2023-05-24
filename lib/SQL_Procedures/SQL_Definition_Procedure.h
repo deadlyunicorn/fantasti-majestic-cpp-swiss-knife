@@ -44,7 +44,11 @@ void sqlDdProcedure(string& userInput,ofstream& file){
             getline(cin,userInput);
 
 
-            if ( userInput != " " && userInput != "\0" ){
+
+            if ( userInput == "!!!"){
+                break;
+            }
+            else if ( userInput != " " && userInput != "\0" ){
                 cout << "-------- Success ------"<<endl;
                 cout << "Your results are below" <<endl;
                 replaceChars(userInput,' ','_');
@@ -218,7 +222,7 @@ string dataTypeQueryConstruct(string& userInput){
         else if ( userInput == "1" ){ ///CHAR()
 
             cout << "What should be the length of the string?" << endl;
-
+            cout << ":";
             getline(cin,userInput);
             return "CHAR("+userInput+")";
 
@@ -226,7 +230,7 @@ string dataTypeQueryConstruct(string& userInput){
         else if ( userInput == "2" ){ ///VARCHAR()
         
             cout << "What should be the max length of the string?" << endl;
-            
+            cout << ":";
             getline(cin,userInput);
             return "VARCHAR("+userInput+")";
        
