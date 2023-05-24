@@ -119,6 +119,65 @@ class insertQuery{
         }
 };
 
+class deleteQuery{
+    protected:
+        string table;
+        string condition;
+    public:
+        void setTable(string table){
+            this->table=table;
+        }
+        string getTable(){
+            return table;
+        }
+        void setCondition(string condition){
+        this->condition=condition;
+        }
+        string getCondition(){
+            return condition;
+        }
+        string getQuery();
+            
+
+};
+
+class updateQuery:public deleteQuery{
+    private:
+        string updateArguments;
+
+    public:
+        void setUpdateArguments(string arguments){
+            this->updateArguments=arguments;
+        }
+        
+        string getUpdateArguments(){
+            return updateArguments;
+        }
+        string getQuery();
+        
+        
+};
+
+string deleteQuery::getQuery(){
+    string output;
+    output="DELETE FROM " + table;
+    if(condition.size()>0){
+        output+=" \nWHERE " + condition;
+    }
+    output+=";\n";
+    return output;
+}
+
+string updateQuery::getQuery(){
+    string output;
+    output="UPDATE " + table;
+    output+=" \nSET "+ updateArguments;
+    if(condition.size()>0){
+        output+=" \nWHERE " + condition;
+    }
+    output+=";\n";
+    return output;
+}
 
 void sqlDataManipulationProcedure(string& userInput,ofstream &file){
     
@@ -154,6 +213,10 @@ void sqlDataManipulationProcedure(string& userInput,ofstream &file){
 
                 try{
                     dataTable.setFromTable( getTableFromFile() );
+                    //getTableFromFile() could be a method inside the class..
+                    //The function also couts the tables found
+                    //With their column data. In case of debugging.
+
                 }
 
                 catch(int errorNumber){
@@ -510,12 +573,46 @@ void sqlDataManipulationProcedure(string& userInput,ofstream &file){
         
         }
         else if ( userInput == "3" ){ //Update
-            cout << "User wants to update.. " << endl;
+            
+            updateQuery* updateArguments=new updateQuery;
+            cout << "UPDATING MODE" << endl;
+            optionBar();
+            updateArguments->setTable( getValidInput("Which table to update") );
+            optionBar();
+            cout << "Example Input: salary = salary+500, department = 'Sales'" << endl;
+            updateArguments->setUpdateArguments( getValidInput("What should we update") );
+            optionBar();
+            if (userSaidYesTo("Add condition?")){
+                cout << "Example Input: employee_id = 4512" << endl;
+                updateArguments->setCondition( getValidInput("Enter condition"));
+            };
+            optionBar();
+
+            cout << updateArguments->getQuery() << endl;
+            file << updateArguments->getQuery() << endl << endl;
+
+            delete updateArguments;
 
             waitBeforeContinue();
+
         }
         else if ( userInput == "4" ){ //Delete
-            cout << "User wants to delete.. " << endl;
+            deleteQuery* deleteArguments=new deleteQuery;
+            cout << "DELETING MODE" << endl;
+            optionBar();
+            deleteArguments->setTable( getValidInput("Which table to delete from") );
+            optionBar();
+            if (userSaidYesTo("Add condition?")){
+                cout << "Example Input: employee_id = 4512" << endl;
+                deleteArguments->setCondition( getValidInput("Enter condition"));
+            };
+            optionBar();
+
+            cout << deleteArguments->getQuery() << endl;
+            file << deleteArguments->getQuery() << endl << endl;
+
+            delete deleteArguments;
+
 
             waitBeforeContinue();
         }
