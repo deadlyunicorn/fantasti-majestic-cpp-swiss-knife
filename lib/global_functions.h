@@ -7,6 +7,11 @@
 
     using namespace std;
 
+    void replaceChars(string& input,char charToReplace,char replaceWith); // e.g. replaceChars(userInput,',',' ') will replace commas with spaces
+
+    void getCommand(string& userInput,string& command,string& argument); // command and argument variables must in the process that calls the getCommand() 
+
+
     void bar(){
         cout << "=======================" << endl;
     };
@@ -17,9 +22,34 @@
 
     void waitBeforeContinue(){
         string input;
+        optionBar();
         cout << "Press Enter to continue..." << endl;
         getline(cin,input);
         cout << endl;
+    }
+
+    void successBar(){
+        cout << "-------- Success ------"<<endl;
+        cout << "Your results are below" <<endl<<endl;
+    };
+
+    string getValidData(){
+        
+        while (true){
+            
+            string tempString;
+            
+            cout << ": ";
+            getline( cin,tempString);
+            replaceChars(tempString,' ','\0');
+
+            if(tempString[0]!='\0'){
+                return tempString;
+            }
+            else{
+                cout << "Invalid Input." << endl;
+            }
+        }
     }
 
     bool userSaidYesTo(string textToDisplay){
@@ -43,12 +73,7 @@
 
 
 
-
-    void replaceChars(string& input,char charToReplace,char replaceWith); // e.g. replaceChars(userInput,',',' ') will replace commas with spaces
-
-    void getCommand(string& userInput,string& command,string& argument); // command and argument variables must in the process that calls the getCommand() 
-
-
+    
     
     void replaceChars(string& input,char charToReplace,char replaceWith){
 
