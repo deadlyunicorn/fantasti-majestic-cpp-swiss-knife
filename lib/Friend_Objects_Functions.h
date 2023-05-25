@@ -72,7 +72,7 @@ class Friend{
 
           int temp,temp2;
           temp=friendRef.getBirthday()-this->getBirthday();
-          if (temp < 0){
+          if (temp < 0 || temp > 30){
             temp2=30-temp;
           }
           else {
@@ -83,13 +83,14 @@ class Friend{
           if (temp<0){
             temp=friendRef.getMonth()-this->getMonth()-1;
           }
+          else if(temp>30){
+            temp=friendRef.getMonth()-this->getMonth()+1;
+          }
           else {
             temp=friendRef.getMonth()-this->getMonth();
           }
 
-          tempObj.setBirthMonth(temp);
-
-          if (temp<0){
+          if (temp<0 || temp>12){
             temp2=12-(temp);
           }
           else{
@@ -97,8 +98,13 @@ class Friend{
           }
 
           tempObj.setBirthMonth(temp2);
+          
+          
           if (temp<0){
             temp=friendRef.getYear()-this->getYear()-1;
+          }
+          else if(temp>12){
+            temp=friendRef.getYear()-this->getYear()+1;
           }
           else {
             temp=friendRef.getYear()-this->getYear();
