@@ -215,10 +215,16 @@ void friendProcedure(string& userInput){
       Friend First = tempList->getFriendNum(y);
       Friend AgeDifference = tempList->getFriendNum(x)- First;
       cout << "Your first friend is" << endl;
-      cout << AgeDifference.getYear() << " years" << endl;
-      cout <<  AgeDifference.getMonth() << " months" << endl;
-      cout <<  AgeDifference.getBirthday() << " days" << endl;
-      cout << "Older than your 2nd one." << endl;
+      // if (AgeDifference.getYear()){}
+      cout <<  to_string(AgeDifference.getBirthday()) << " days" << endl;
+      cout <<  to_string(AgeDifference.getMonth()) << " months" << endl;
+      if(AgeDifference.getYear()>0){
+        cout << to_string(AgeDifference.getYear()) << " years older" << endl;
+      }
+      else{
+        cout << to_string(-AgeDifference.getYear()) << " years younger" << endl;
+      }
+      cout << " than your 2nd one." << endl;
 
       waitBeforeContinue();
 

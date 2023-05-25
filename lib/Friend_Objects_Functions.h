@@ -69,10 +69,45 @@ class Friend{
           Friend tempObj;
           tempObj.setFirstName("");
           tempObj.setSurName("");
-          tempObj.setBirthYear(friendRef.getYear()-this->getYear());
-          tempObj.setBirthMonth(friendRef.getMonth()-this->getMonth());
-          tempObj.setBirthDay(friendRef.getBirthday()-this->getBirthday());
+
+          int temp,temp2;
+          temp=friendRef.getBirthday()-this->getBirthday();
+          if (temp < 0){
+            temp2=30-temp;
+          }
+          else {
+            temp2=temp;
+          }
+          tempObj.setBirthDay(temp2);
+          
+          if (temp<0){
+            temp=friendRef.getMonth()-this->getMonth()-1;
+          }
+          else {
+            temp=friendRef.getMonth()-this->getMonth();
+          }
+
+          tempObj.setBirthMonth(temp);
+
+          if (temp<0){
+            temp2=12-(temp);
+          }
+          else{
+            temp2=temp;
+          }
+
+          tempObj.setBirthMonth(temp2);
+          if (temp<0){
+            temp=friendRef.getYear()-this->getYear()-1;
+          }
+          else {
+            temp=friendRef.getYear()-this->getYear();
+          }
+          temp2=temp;
+          tempObj.setBirthYear(temp2);
+          
           return tempObj;
+          
     };
 };
 
