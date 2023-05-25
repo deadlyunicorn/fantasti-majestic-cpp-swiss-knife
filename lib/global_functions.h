@@ -70,6 +70,31 @@
 
     }
 
+    void readFile(string filename){
+        ifstream readingFile;
+        try{
+            readingFile.open(filename);
+            if(!readingFile){
+                throw 404;
+            }
+            else{
+                string line;
+                while(getline(readingFile,line)){
+                    cout << line << endl;
+                }
+                waitBeforeContinue();
+            }
+            readingFile.close();
+
+        }
+        
+        catch(...){
+            cout << "Error file was not found.." << endl;
+        }
+
+        
+    }
+
 
 
 
@@ -135,7 +160,7 @@
 
                 }
 
-                command.push_back('\0'); //When done, mark it in the string
+                // command.push_back('\0'); //When done, mark it in the string
                 break; //exit the first loop when the command word is found
             
             }
@@ -181,7 +206,7 @@
             }
         }
 
-        argument.push_back('\0');
+        // argument.push_back('\0');
 
     }
 
