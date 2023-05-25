@@ -13,11 +13,11 @@
 
 
     void bar(){
-        cout << "=======================" << endl;
+        cout << "===============================" << endl;
     };
 
     void optionBar(){
-        cout << "-----------------------" << endl;
+        cout << "-------------------------------" << endl;
     };
 
     void waitBeforeContinue(){
@@ -68,6 +68,39 @@
 
         return ( userInput == "y" ); //;p
 
+    }
+
+    bool fileExists(string filename){
+        ifstream readingFile;
+        readingFile.open(filename);
+        if(!readingFile){
+            return false;
+        }
+        else{
+            return true;
+        }
+    };
+
+    string getNumberInput(){
+        string tempInput;
+        int number;
+
+        while (true){
+
+            cout << ": ";
+            getline(cin,tempInput);
+
+            if (tempInput=="!!!" || tempInput=="exit"){
+                return "!!!";
+            }
+            try{
+                number=stoi(tempInput);
+                return tempInput;
+            }
+            catch(...){
+                cout << "Invalid Input." << endl;
+            }
+        }
     }
 
     void readFile(string filename){
