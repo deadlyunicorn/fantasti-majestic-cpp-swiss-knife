@@ -187,7 +187,7 @@ void friendProcedure(string& userInput){
 
       while (true){
       
-        temp=stoi(getNumberInput());
+        temp=stoi(getNumberInput())-1;
 
         if ( (temp<0) || (temp>tempList->getfriendCount() ) ){
           cout << "Not a valid option." << endl;
@@ -202,7 +202,7 @@ void friendProcedure(string& userInput){
 
       while (true){
       
-        temp=stoi(getNumberInput());
+        temp=stoi(getNumberInput())-1;
 
         if ( ( temp<0 ) || ( temp>tempList->getfriendCount() )){
           cout << "Not a valid option." << endl;

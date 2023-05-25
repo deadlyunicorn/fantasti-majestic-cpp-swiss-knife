@@ -67,8 +67,8 @@ class Friend{
     }
     Friend operator-(Friend& friendRef){
           Friend tempObj;
-          tempObj.setFirstName("");
-          tempObj.setSurName("");
+          tempObj.setFirstName(" ");
+          tempObj.setSurName(" ");
 
           int temp,temp2;
           temp=friendRef.getBirthday()-this->getBirthday();
