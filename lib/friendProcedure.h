@@ -182,7 +182,7 @@ void friendProcedure(string& userInput){
       
       int x,y,temp;
 
-      tempList->getFriendNames();
+      cout << tempList->getFriendNames();
       getValidInput("Enter the number of your 1st friend");
 
       while (true){
