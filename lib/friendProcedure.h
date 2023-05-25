@@ -183,13 +183,13 @@ void friendProcedure(string& userInput){
       int x,y,temp;
 
       cout << tempList->getFriendNames();
-      getValidInput("Enter the number of your 1st friend");
+      cout << "Enter the number of your 1st friend" << endl;
 
       while (true){
       
         temp=stoi(getNumberInput());
 
-        if (temp<0||temp>tempList->getfriendCount()){
+        if ( (temp<0) || (temp>tempList->getfriendCount() ) ){
           cout << "Not a valid option." << endl;
         }
         else {
@@ -198,13 +198,13 @@ void friendProcedure(string& userInput){
         }
       }
 
-      getValidInput("Enter the number of your 2nd friend");
+      cout << "Enter the number of your 2nd friend" << endl;
 
       while (true){
       
         temp=stoi(getNumberInput());
 
-        if (temp<0||temp>tempList->getfriendCount()){
+        if ( ( temp<0 ) || ( temp>tempList->getfriendCount() )){
           cout << "Not a valid option." << endl;
         }
         else {
