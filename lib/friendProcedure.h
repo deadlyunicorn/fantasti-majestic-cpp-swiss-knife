@@ -72,10 +72,15 @@ void friendProcedure(string& userInput){
       break;
     }
 
-    friendList.open(filename,ofstream::out | ofstream::app);
+
+    friendListClass::friendList* tempList=new friendListClass::friendList;
+    tempList->generateFromFile(filename);
 
 
     if(userInput=="1"){ //Add new friend
+
+        friendList.open(filename,ofstream::out | ofstream::app);
+
 
         Friend* newFriend=new Friend;
 
@@ -155,6 +160,8 @@ void friendProcedure(string& userInput){
         bar();
         
         delete newFriend;
+        friendList.close();
+
         waitBeforeContinue();
 
 
@@ -162,8 +169,7 @@ void friendProcedure(string& userInput){
       
     }
     else if(userInput=="2"){ //See all friends
-      friendListClass::friendList* tempList=new friendListClass::friendList;
-      tempList->generateFromFile(filename);
+      
       
       cout << "Here is a list of your friends!" << endl;
       cout << "You have " << tempList->getfriendCount() << " friends." << endl;
@@ -171,18 +177,62 @@ void friendProcedure(string& userInput){
       
       waitBeforeContinue();
 
-      delete tempList;
     }
     else if(userInput=="3"){ //Compare age
+      
+      int x,y,temp;
+
+      tempList->getFriendNames();
+      getValidInput("Enter the number of your 1st friend");
+
+      while (true){
+      
+        temp=stoi(getNumberInput());
+
+        if (temp<0||temp>tempList->getfriendCount()){
+          cout << "Not a valid option." << endl;
+        }
+        else {
+          x=temp;
+          break;
+        }
+      }
+
+      getValidInput("Enter the number of your 2nd friend");
+
+      while (true){
+      
+        temp=stoi(getNumberInput());
+
+        if (temp<0||temp>tempList->getfriendCount()){
+          cout << "Not a valid option." << endl;
+        }
+        else {
+          y=temp;
+          break;
+        }
+      };
+      Friend First = tempList->getFriendNum(y);
+      Friend AgeDifference = tempList->getFriendNum(x)- First;
+      cout << "Your first friend is" << endl;
+      cout << AgeDifference.getYear() << " years" << endl;
+      cout <<  AgeDifference.getMonth() << " months" << endl;
+      cout <<  AgeDifference.getBirthday() << " days" << endl;
+      cout << "Older than your 2nd one." << endl;
+
+      waitBeforeContinue();
+
 
     }
     else if(userInput=="4"){ //Friend's Zodiac
 
     }
 
+    delete tempList;
 
 
-    friendList.close();
+
+
   }
 
 };

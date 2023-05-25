@@ -54,13 +54,26 @@ class Friend{
       return temp;
     }
     string getName(){
-      string output = "";
-      output += firstName;
-      output += " ";
-      output += surName;
-      // return (firstName + " " +surName);
-      return this->firstName; 
+      return (firstName + " " +surName);
     }
+    int getBirthday(){
+      return birthDay;
+    }
+    int getMonth(){
+      return birthMonth;
+    }
+    int getYear(){
+      return birthYear;
+    }
+    Friend operator-(Friend& friendRef){
+          Friend tempObj;
+          tempObj.setFirstName("");
+          tempObj.setSurName("");
+          tempObj.setBirthYear(friendRef.getYear()-this->getYear());
+          tempObj.setBirthMonth(friendRef.getMonth()-this->getMonth());
+          tempObj.setBirthDay(friendRef.getBirthday()-this->getBirthday());
+          return tempObj;
+    };
 };
 
 namespace friendListClass{
@@ -94,6 +107,11 @@ class friendList{
         }
 
         void generateFromFile( string& filename );
+
+        Friend getFriendNum(int i){
+          return friendList[i];
+        }
+
 
 };
 
