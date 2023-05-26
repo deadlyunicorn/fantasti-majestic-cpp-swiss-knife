@@ -65,6 +65,7 @@ class Friend{
     int getYear(){
       return birthYear;
     }
+    string getZodiac();
     Friend operator-(Friend& friendRef){
           Friend tempObj;
           tempObj.setFirstName(" ");
@@ -115,6 +116,43 @@ class Friend{
           return tempObj;
           
     };
+};
+
+string Friend::getZodiac(){
+    if (this->getMonth()  ==1){
+        return "Capricorn";
+    }
+    else if (this->getMonth()   == 2) {
+        return "Aquarius";
+    }
+    else if (this->getMonth()  ==3){
+        return "Pisces";
+    }
+    else if (this->getMonth()   == 4) {
+        return "Aries";
+    }
+    else if (this->getMonth()==5 ){
+        return "Taurus";
+    }
+    else if (this->getMonth()==6) {
+        return "Gemini";
+    }
+    else if (this->getMonth()  ==7) {
+        return "Crab";
+    }
+    else if (this->getMonth()  ==8){
+        return "Leo";
+    }
+    else if (this->getMonth()  ==9){
+        return "Virgo";
+    }
+    else if (this->getMonth()  ==10){
+        return "Libra";
+    }
+    else if (this->getMonth()  ==11){
+        return "Scorpio";
+    }
+    else return "Archer";
 };
 
 namespace friendListClass{
