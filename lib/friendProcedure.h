@@ -59,6 +59,11 @@ void friendProcedure(string& userInput){
 
     while (true){
         userInput=getNumberInput();
+
+        if(userInput=="!!!"){
+              break;
+            }
+
         if( stoi(userInput) < 1 || stoi( userInput ) > 4 ){
           cout << "Please select one of the options listed above!" << endl;
           continue;
@@ -69,8 +74,10 @@ void friendProcedure(string& userInput){
     }
 
     if(userInput=="!!!"){
-      break;
+              break;
     }
+
+   
 
 
     friendListClass::friendList* tempList=new friendListClass::friendList;
@@ -231,7 +238,31 @@ void friendProcedure(string& userInput){
 
     }
     else if(userInput=="4"){ //Friend's Zodiac
+      
+      int x;
 
+      cout << "Here is a list of your friends!" << endl;
+      cout << tempList->getFriendNames();
+
+      cout << "Whose friend to see the Zodiac of?" << endl;
+
+      while (true){
+      
+        int temp;
+        temp=stoi(getNumberInput())-1;
+
+        if ( (temp<0) || (temp>tempList->getfriendCount() ) ){
+          cout << "Not a valid option." << endl;
+        }
+        else {
+          x=temp;
+          break;
+        }
+      }
+
+      cout << tempList->getFriendNum(x).getName() << " is a " << tempList->getFriendNum(x).getZodiac() << "!" << endl;
+      
+      waitBeforeContinue();
     }
 
     delete tempList;
