@@ -226,10 +226,10 @@ void friendProcedure(string& userInput){
       cout <<  to_string(AgeDifference.getBirthday()) << " days ";
       cout <<  to_string(AgeDifference.getMonth()) << " months and ";
       if(AgeDifference.getYear()>0){
-        cout << to_string(AgeDifference.getYear()) << " years older";
+        cout << to_string(AgeDifference.getYear()) << " years younger";
       }
       else{
-        cout << to_string(-AgeDifference.getYear()) << " years younger";
+        cout << to_string(-AgeDifference.getYear()) << " years older";
       }
       cout << " than " << tempList->getFriendNum(y).getName() << "."<< endl;
 
